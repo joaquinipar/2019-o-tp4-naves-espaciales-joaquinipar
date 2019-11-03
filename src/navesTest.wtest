@@ -25,12 +25,18 @@ describe "Nave de carga" {
 		naveLlena.recibirAmenaza()
 		assert.equals(0, naveVacia.carga())
 	}
-
+	
+	test "al propulsar no esta excedida de velocidad"{
+		
+		naveVacia.propulsar()
+		assert.equals(20000,naveVacia.velocidad())
+		
+	}
 }
 
 describe "Nave de pasajeros" {
-
-	const naveSinPasajeros = new NaveDePasajeros()
+	
+	const naveSinPasajeros = new NaveDePasajeros(cantidadDePasajeros = 0)
 	const naveConPasajeros = new NaveDePasajeros(cantidadDePasajeros = 296, velocidad = 290000)
 
 	test "velocidad maxima sin pasajeros" {
@@ -53,7 +59,21 @@ describe "Nave de pasajeros" {
 		naveSinPasajeros.recibirAmenaza()
 		assert.that(naveSinPasajeros.alarma())
 	}
-
+	test "al propulsar queda viajando a 300000"{
+		
+		naveConPasajeros.propulsar()
+		assert.equals(300000, naveConPasajeros.velocidad())
+		
+	}
+	
+	test "nave de pasajeros a 290000(km/s) al prepararse para viajar se queda en 300000(km/s)"{
+		
+		naveConPasajeros.prepararseParaViajar()
+		
+		assert.equals(300000,naveConPasajeros.velocidad())
+		
+	}
+	
 }
 
 describe "Nave de combate" {
@@ -82,6 +102,29 @@ describe "Nave de combate" {
 	test "recibir amenaza en ataque" {
 		naveEnAtaque.recibirAmenaza()
 		assert.equals("Enemigo encontrado", naveEnAtaque.ultimoMensaje())
+	}
+	
+	
+}
+
+describe "Nave de Carga de Residuos Radioactivos"{
+	
+	const naveCargadaRadioactiva = new NaveDeCargaRadioactiva(carga = 5000, velocidad = 10000 )
+	const naveSinVelocidad = new NaveDeCargaRadioactiva(velocidad=0, estaSellado = false)
+	
+	test "naveCargadaRadioactiva con una carga de 5000 y velocidad de 10000 recibe amenaza"{
+		
+		naveCargadaRadioactiva.recibirAmenaza()
+		assert.equals(5000,naveCargadaRadioactiva.carga() )
+		
+	}
+	
+	test"Nave sin velocidad y sin sellar al prepararse para viajar termina sellada y con velocidad de 15000"{
+		
+		naveSinVelocidad.prepararseParaViajar()
+		assert.equals(15000,naveSinVelocidad.velocidad())
+		assert.equals(true,naveSinVelocidad.estaSellado())
+		
 	}
 }
 

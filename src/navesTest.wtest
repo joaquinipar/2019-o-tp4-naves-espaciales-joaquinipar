@@ -38,7 +38,8 @@ describe "Nave de pasajeros" {
 	
 	const naveSinPasajeros = new NaveDePasajeros(cantidadDePasajeros = 0)
 	const naveConPasajeros = new NaveDePasajeros(cantidadDePasajeros = 296, velocidad = 290000)
-
+	const naveEstatica = new NaveDePasajeros(cantidadDePasajeros=2,velocidad=0)
+	
 	test "velocidad maxima sin pasajeros" {
 		assert.equals(75000, naveSinPasajeros.velocidadMaximaLegal())
 	}
@@ -72,6 +73,13 @@ describe "Nave de pasajeros" {
 		
 		assert.equals(300000,naveConPasajeros.velocidad())
 		
+	}
+	
+	test "nave sin velocidad queda con 20000km/s y alarma encendida luego de encontrarse con enemigo"{
+		
+		naveEstatica.encontrarEnemigo()
+		assert.equals(20000,naveEstatica.velocidad())
+		assert.equals(true,naveEstatica.alarma())
 	}
 	
 }
